@@ -26,7 +26,7 @@ class Hex < String
   end
 
   def ^(other)
-    Hex.new(self.to_i ^ other.to_i)
+    (to_i ^ other.to_i).to_hex
   end
 end
 
@@ -60,11 +60,11 @@ class B64 < String
   end
 
   def ^(other)
-    Hex.new(self.to_i ^ other.to_i)
+    (self.to_i ^ other.to_i).to_b64
   end
 end
 
-class Fixnum
+class Integer
   def to_hex
     Hex.new(encode_in_base(Hex))
   end
@@ -87,11 +87,7 @@ class Fixnum
       num = num % this_power
     end
 
-    output
-  end
-
-  def ^(other)
-    super(other.to_i)
+    base_class.new(output)
   end
 end
 
@@ -101,17 +97,18 @@ Write a function that takes two equal-length buffers and produces their XOR comb
 
 If your function works properly, then when you feed it the string:
 
-1c0111001f010100061a024b53535009181c
-... after hex decoding, and when XOR'd against:
-
-686974207468652062756c6c277320657965
-... should produce:
-
-746865206b696420646f6e277420706c6179
 =end
 
-A = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-# 
+Z = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+
+
+A = "1c0111001f010100061a024b53535009181c"
+
+B = "686974207468652062756c6c277320657965"
+
+C = "746865206b696420646f6e277420706c6179"
+
+#
 # def find_match(input)
 #   length = hex_to_b64(input).length
 #   [('a'..'z'), ('B'..'Z')].each do |range|
