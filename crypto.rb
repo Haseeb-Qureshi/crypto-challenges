@@ -1,13 +1,13 @@
 require_relative './bases/bases'
 require_relative 'tests'
 require 'colorize'
+require 'set'
 
-sets = 1
-challenges = 3
-(1..sets).each do |set|
-  (1..challenges).each do |challenge|
+SETS = 1
+CHALLENGES = 4
+(1..SETS).each do |set|
+  (1..CHALLENGES).each do |challenge|
     require_relative File.join("set#{set}", "c#{challenge}")
   end
+  run_tests(CHALLENGES)
 end
-
-run_tests(challenges)
