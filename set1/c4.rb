@@ -1,4 +1,4 @@
-require_relative 'xor_cipher'
+require_relative 'xor_cipher_breaker'
 
 def challenge_4
   all_strings = File.readlines('set1/c4_testfile.txt').map(&:chomp!)
