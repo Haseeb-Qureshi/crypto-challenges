@@ -43,12 +43,16 @@ module BaseConvertable
 
   def each_codepoint
     return enum_for(:each_codepoint) unless block_given?
+    
     each_char { |char| yield self.class.num_from_char(char) }
   end
 
   def map_each_codepoint!
     return enum_for(:map_each_codepoint!) unless block_given?
-    length.times { |i| self[i] = self.class.char(yield self.class.num_from_char(self[i])) }
+
+    length.times do |i|
+      self[i] = self.class.char(yield self.class.num_from_char(self[i]))
+    end
     self
   end
 end

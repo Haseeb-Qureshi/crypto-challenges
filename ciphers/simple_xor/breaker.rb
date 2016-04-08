@@ -1,10 +1,12 @@
+require_relative '../../helpers/hex_conversions'
+
 MOST_COMMON_LETTERS = "ETAOIN SHRLDU".chars
 LETTER_SCORES = MOST_COMMON_LETTERS.zip((0..15).to_a.reverse).to_h
 LETTER_SCORES.default = 0
 LETTER_SCORES.freeze
 
 def best_cipher_match(input)
-  ascii = input.chars.each_slice(2).map { |slice| slice.join.hex.chr }.join
+  ascii = hex_to_ascii(input)
   best_xored_string(ascii)
 end
 
@@ -30,8 +32,8 @@ def best_xored_strings(ascii)
   candidate_matches.sort_by(&:last).last(5).map(&:first).reverse
 end
 
-def xor_with(ascii, i)
-  ascii.each_byte.inject("") { |str, byte| str << (byte ^ i).chr }
+def xor_with(ascii, n)
+  ascii.each_byte.inject("") { |str, byte| str << (byte ^ n).chr }
 end
 
 def letter_score(str)
