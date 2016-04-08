@@ -1,4 +1,4 @@
-require_relative '../../helpers/hex_conversions'
+require_relative '../../helpers/base_conversions'
 
 MOST_COMMON_LETTERS = "ETAOIN SHRLDU".chars
 LETTER_SCORES = MOST_COMMON_LETTERS.zip((0..15).to_a.reverse).to_h
@@ -6,8 +6,8 @@ LETTER_SCORES.default = 0
 LETTER_SCORES.freeze
 
 def best_cipher_match(input)
-  ascii = hex_to_ascii(input)
-  best_xored_string(ascii)
+  input = hex_to_ascii(input) if is_hex?(input)
+  best_xored_string(input)
 end
 
 def best_xored_string(ascii)

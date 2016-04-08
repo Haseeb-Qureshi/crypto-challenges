@@ -4,7 +4,7 @@ require 'colorize'
 require 'set'
 
 SETS = 1
-CHALLENGES = 5
+CHALLENGES = 6
 (1..SETS).each do |set|
   (1..CHALLENGES).each do |challenge|
     require_relative File.join("set#{set}", "c#{challenge}")

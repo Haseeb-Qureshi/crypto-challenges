@@ -1,4 +1,4 @@
-require_relative '../helpers/hex_conversions'
+require_relative '../helpers/base_conversions'
 
 def challenge_1
   hex_to_b64(
