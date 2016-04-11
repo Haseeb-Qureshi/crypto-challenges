@@ -4,10 +4,10 @@ require_relative '../ciphers/vigenere/breaker'
 
 def challenge_6
   ascii = b64_to_ascii_from_file("set1/c6_testfile.txt")
-  VigenereBreaker.new(ascii).break == MESSAGE
+  VigenereBreaker.new(ascii).break == C6_MESSAGE
 end
 
-MESSAGE =
+C6_MESSAGE =
 "I'm back and I'm ringin' the bell \n"\
 "A rockin' on the mike while the fly girls yell \n"\
 "In ecstasy in the back of me \n"\
