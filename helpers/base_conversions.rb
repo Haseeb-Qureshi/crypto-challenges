@@ -1,4 +1,4 @@
-HEX_CHARS = Set.new(('a'..'f').to_a + (0..9).to_a)
+HEX_CHARS = Set.new(('a'..'f').to_a + ('0'..'9').to_a)
 
 def hex_to_b64(hex)
   [hex_to_ascii(hex)].pack("m0")
@@ -18,4 +18,9 @@ end
 
 def is_hex?(input)
   input.chars.all? { |char| HEX_CHARS.include?(char) }
+end
+
+def b64_to_ascii_from_file(filepath)
+  b64 = File.readlines(filepath).map(&:chomp).join
+  b64_to_ascii(b64)
 end

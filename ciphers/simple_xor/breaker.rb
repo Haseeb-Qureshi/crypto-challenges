@@ -11,14 +11,23 @@ def best_cipher_match(input)
 end
 
 def best_xored_string(ascii)
+  best_xored_match(ascii).first
+end
+
+def best_xored_key(ascii)
+  best_xored_match(ascii).last.chr
+end
+
+def best_xored_match(ascii)
   max_str = ""
+  max_key = 0
   max_score = 0
   256.times do |i|
     xored = xor_with(ascii, i)
     score = letter_score(xored)
-    max_str, max_score = xored, score if score > max_score
+    max_str, max_score, max_key = xored, score, i if score > max_score
   end
-  max_str
+  [max_str, max_key]
 end
 
 def best_xored_strings(ascii)
