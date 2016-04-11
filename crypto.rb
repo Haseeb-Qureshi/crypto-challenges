@@ -3,11 +3,12 @@ require_relative 'tests'
 require 'colorize'
 require 'set'
 
-SETS = 1
-CHALLENGES = 8
+SETS = 2
+CHALLENGES = 9
 (1..SETS).each do |set|
   (1..CHALLENGES).each do |challenge|
-    require_relative File.join("set#{set}", "c#{challenge}")
+    file = File.join("set#{set}", "c#{challenge}.rb")
+    require_relative file if File.exist?(file)
   end
-  run_tests(CHALLENGES)
 end
+run_tests(CHALLENGES)
