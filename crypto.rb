@@ -4,11 +4,17 @@ require 'colorize'
 require 'set'
 
 SETS = 2
-CHALLENGES = 9
-(1..SETS).each do |set|
-  (1..CHALLENGES).each do |challenge|
-    file = File.join("set#{set}", "c#{challenge}.rb")
-    require_relative file if File.exist?(file)
+CHALLENGES = 36
+set_no = 1
+
+(1..CHALLENGES).each do |challenge|
+  file = File.join("set#{set_no}", "c#{challenge}.rb")
+
+  if File.exist?(file)
+    require_relative file
+  elsif set_no < SETS
+    set_no += 1
+    redo
   end
 end
 run_tests(CHALLENGES)
