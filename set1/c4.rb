@@ -1,7 +1,10 @@
-require_relative '../ciphers/simple_xor/breaker'
+require_relative '../ciphers/character_xor'
 
-def challenge_4
-  all_strings = File.readlines('set1/c4_testfile.txt').map(&:chomp!)
-  all_strings.map { |str| best_cipher_match(str) }
-             .max_by { |str| letter_score(str) } == "Now that the party is jumping\n"
+def test
+  inputs = File.readlines(__dir__ + '/c4_testfile.txt').map(&:chomp)
+
+  inputs.lazy.map do |input|
+    key = best_key(input)
+    [key_score(input, key), decoded_input(input, key)]
+  end.max_by(&:first).last == "Now that the party is jumping\n"
 end
