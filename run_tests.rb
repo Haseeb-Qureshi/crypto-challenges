@@ -2,7 +2,7 @@
 
 require 'colorize'
 
-SLOW_TESTS = %w(c3 c4 c5)
+SLOW_TESTS = %w()
 
 Dir["set*/*.rb"].sort.each do |file|
   next if SLOW_TESTS.any? { |slow_test| file.match(slow_test) }

@@ -2,14 +2,10 @@ require_relative '../base/hex'
 require_relative '../base/b64'
 
 MOST_FREQUENT = 'ETAOIN SHRDLU'.reverse
-POSSIBLE_KEYS = [*'A'..'Z', *'a'..'z', *'0'..'9']
+POSSIBLE_KEYS = (0..127).map(&:chr)
 
 def best_key(input)
-  POSSIBLE_KEYS.map { |key| [key, key_score(input, key)] }
-               .sort_by(&:last)
-               .tap { |keys| p keys.last(3) }
-               .max_by(&:last)
-               .first
+  POSSIBLE_KEYS.max_by { |key| key_score(input, key) }
 end
 
 def key_score(input, key)
