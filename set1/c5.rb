@@ -12,13 +12,12 @@ KEY = "ICE"
 EXPECTED_OUTPUT = "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326302e27282f"
 
 def repeating_encrypt(input, key)
-  input.each_char.with_index.reduce("") do |encrypted, (char, i)|
-    next_val = char.ord ^ key[i % key.length].ord
-    encrypted << next_val.chr
-  end
+  input.bytes.each_with_index.reduce([]) do |encrypted_bytes, (byte, i)|
+    next_byte = byte ^ key[i % key.length].ord
+    encrypted_bytes << next_byte
+  end.pack('c*')
 end
 
 def test
-  p Hex.from_ascii(repeating_encrypt(INPUT, KEY))
-  Hex.from_ascii(repeating_encrypt(INPUT, KEY)) == EXPECTED_OUTPUT
+  repeating_encrypt(INPUT, KEY).unpack('H*').first == EXPECTED_OUTPUT
 end

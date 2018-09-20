@@ -1,23 +1,24 @@
 require_relative '../base/hex'
 require_relative '../base/b64'
 
-MOST_FREQUENT = 'ETAOIN SHRDLU'
-POSSIBLE_KEYS = B64.alphabet
+MOST_FREQUENT = 'ETAOIN SHRDLU'.reverse
+POSSIBLE_KEYS = [*'A'..'Z', *'a'..'z', *'0'..'9']
 
 def best_key(input)
-  POSSIBLE_KEYS.max_by { |key| key_score(input, key) }
+  POSSIBLE_KEYS.map { |key| [key, key_score(input, key)] }
+               .sort_by(&:last)
+               .tap { |keys| p keys.last(3) }
+               .max_by(&:last)
+               .first
 end
 
 def key_score(input, key)
-  input.chars.each_slice(2).reduce(0) do |score, slice|
-    val = Hex.new(slice.join).to_i
-    decoded_char = (val ^ key.ord).chr
-    score + (MOST_FREQUENT.reverse.index(decoded_char.upcase) || 0)
+  input.bytes.reduce(0) do |score, byte|
+    decoded_char = (byte ^ key.ord).chr
+    score + (MOST_FREQUENT.index(decoded_char.upcase) || 0)
   end
 end
 
 def decoded_input(input, key)
-  input.chars.each_slice(2).map do |slice|
-    (Hex.new(slice.join).to_i ^ key.ord).chr
-  end.join
+  input.bytes.map { |byte| byte ^ key.ord }.pack('c*')
 end

@@ -12,8 +12,14 @@ OUTPUT = '746865206b696420646f6e277420706c6179'
 
 require_relative '../base/hex'
 
-def fixed_xor
+def my_fixed_xor
   Hex.new(Hex.new(INPUT1).to_i ^ Hex.new(INPUT2).to_i) == OUTPUT
+end
+
+def fixed_xor
+  input1 = Hex.to_bytes(INPUT1)
+  input2 = Hex.to_bytes(INPUT2)
+  input1.zip(input2).map { |a, b| a ^ b }.pack('c*')
 end
 
 def test

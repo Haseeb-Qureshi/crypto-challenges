@@ -39,7 +39,7 @@ class Base < String
 
   def to_i
     reverse.each_char.with_index.reduce(0) do |val, (char, i)|
-      binding.pry if self.class.values[char].nil?
+      # require 'pry'; binding.pry if self.class.values[char].nil?
       val + self.class.values[char] * self.class.alphabet.length ** i
     end
   end

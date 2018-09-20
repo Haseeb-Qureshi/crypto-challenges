@@ -1,7 +1,10 @@
 require_relative '../ciphers/character_xor'
+require_relative '../base/hex'
 
 def test
-  inputs = File.readlines(__dir__ + '/c4_testfile.txt').map(&:chomp)
+  inputs = File.readlines(__dir__ + '/c4_testfile.txt')
+               .map(&:chomp)
+               .map { |h| Hex.to_ascii(h) }
 
   inputs.lazy.map do |input|
     key = best_key(input)

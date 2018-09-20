@@ -10,4 +10,12 @@ class Hex < Base
   def self.get_alphabet
     [*'0'..'9', *'a'..'f']
   end
+
+  def self.to_bytes(s)
+    to_ascii(s).bytes.to_a
+  end
+
+  def self.to_ascii(s)
+    [s].pack('H*')
+  end
 end

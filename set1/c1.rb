@@ -3,10 +3,15 @@ EXPECTED_OUTPUT = 'SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb
 
 require_relative '../base/hex'
 require_relative '../base/b64'
+require 'base64'
 
 # Write a function that converts Hex to Base64
-def convert_hex_to_b64
+def my_convert_hex_to_b64
   Hex.new(INPUT).to(B64) == EXPECTED_OUTPUT
+end
+
+def convert_hex_to_b64
+  Base64.encode64(Hex.to_ascii(INPUT)).delete("\n") == EXPECTED_OUTPUT
 end
 
 def test
