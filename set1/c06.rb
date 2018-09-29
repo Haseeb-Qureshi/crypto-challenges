@@ -5,7 +5,7 @@ require 'base64'
 KEY_SIZE_GUESSES = (2..40)
 
 def break_repeating_key_xor
-  input = Base64.decode64(File.read(__dir__ + "/c6_testfile.txt"))
+  input = Base64.decode64(File.read(__dir__ + "/c06_testfile.txt"))
   key_size = compute_key_size(input)
   input_slices = divide_input_into_slices(input, key_size)
   key = input_slices.map { |slice| best_key(slice) }.join

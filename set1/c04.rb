@@ -2,7 +2,7 @@ require_relative '../ciphers/character_xor'
 require_relative '../base/hex'
 
 def test
-  inputs = File.readlines(__dir__ + '/c4_testfile.txt')
+  inputs = File.readlines(__dir__ + '/c04_testfile.txt')
                .map(&:chomp)
                .map { |h| Hex.to_ascii(h) }
 

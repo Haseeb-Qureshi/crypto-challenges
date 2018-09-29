@@ -6,17 +6,15 @@
 # Decrypt it. You know the key, after all.
 #
 # Easiest way: use OpenSSL::Cipher and give it AES-128-ECB as the cipher.
-require 'openssl'
 require 'base64'
+require_relative '../helpers/aes'
+require_relative '../helpers/padding'
 
-ENCRYPTION_KEY = "YELLOW SUBMARINE"
+KEY = "YELLOW SUBMARINE"
 
 def decrypt_ecb
-  input = Base64.decode64(File.read(__dir__ + '/c7_testfile.txt'))
-  cipher = OpenSSL::Cipher::Cipher.new('AES-128-ECB')
-  cipher.decrypt
-  cipher.key = ENCRYPTION_KEY
-  cipher.update(input) << cipher.final
+  input = Base64.decode64(File.read(__dir__ + '/c07_testfile.txt'))
+  AES.decrypt(KEY, input, PCKS7)
 end
 
 def test

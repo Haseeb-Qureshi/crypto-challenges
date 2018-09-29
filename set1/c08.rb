@@ -9,7 +9,7 @@
 require_relative '../base/hex'
 
 def find_encrypted_ciphertext
-  inputs = File.readlines(__dir__ + '/c8_testfile.txt').map(&:chomp)
+  inputs = File.readlines(__dir__ + '/c08_testfile.txt').map(&:chomp)
   inputs.max_by { |text| repeated_block_count(text) }
 end
 

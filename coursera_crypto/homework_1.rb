@@ -1,6 +1,5 @@
 require_relative '../base/hex'
-require 'set'
-require 'pry'
+require_relative '../helpers/binary'
 
 TARGET = '32510ba9babebbbefd001547a810e67149caee11d945cd7fc81a05e9f85aac650e9052ba6a8cd8257bf14d13e6f0a803b54fde9e77472dbff89d71b57bddef121336cb85ccb8f3315f4b52e301d16e9f52f904
 '
@@ -53,14 +52,6 @@ def reveal_plaintexts
 
   puts "Decrypted target: "
   p pairwise_xor(Hex.to_bytes(TARGET), Hex.to_bytes(KEY)).pack('c*')
-end
-
-def all_ascii?(bytes)
-  bytes.all? { |byte| GOOD_LETTERS.include?(byte) }
-end
-
-def pairwise_xor(i1, i2)
-  i1.zip(i2).select(&:all?).map { |a, b| a ^ b }
 end
 
 def test
