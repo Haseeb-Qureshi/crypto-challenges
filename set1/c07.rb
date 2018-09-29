@@ -14,7 +14,7 @@ KEY = "YELLOW SUBMARINE"
 
 def decrypt_ecb
   input = Base64.decode64(File.read(__dir__ + '/c07_testfile.txt'))
-  AES.decrypt(KEY, input, PCKS7)
+  AES.ecb_decrypt(KEY, input, PCKS7)
 end
 
 def test
