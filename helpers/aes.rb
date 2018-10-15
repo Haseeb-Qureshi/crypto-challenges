@@ -36,7 +36,7 @@ class AES
     # prepend IV to ciphertext
     encrypted_blocks = [iv]
 
-    # encrypt first block XORed with encrypted IV
+    # encrypt first block XORed with  IV
     to_encrypt = pairwise_xor(iv.bytes, blocks.first)
     first_block = ecb_encrypt(key, to_encrypt)
     encrypted_blocks << first_block
