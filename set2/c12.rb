@@ -18,37 +18,19 @@ require 'base64'
 require_relative '../helpers/aes'
 require_relative '../helpers/padding'
 
-ALL_CHARS = (32..126).map(&:chr)
-
 def oracle(str)
   @super_secret_key ||= AES.random_key
   @unknown_str ||= Base64.decode64(File.read(__dir__ + '/c12_testfile.txt'))
   AES.ecb_encrypt(@super_secret_key, str + @unknown_str, PCKS7)
 end
 
-def detect_block_size
-  initial_block_size = oracle("").length
-  l = 1
-  loop do
-    subsequent_block_size = oracle(" " * l).length
-    return subsequent_block_size - initial_block_size if subsequent_block_size > initial_block_size
-    l += 1
-  end
-end
-
-def is_ecb?(block_size = 16)
-  plaintext = " " * (block_size * 3)
-  ciphertext = oracle(plaintext)
-  blocks = ciphertext.chars.each_slice(16).to_a
-  blocks.uniq.length < blocks.length
-end
-
 def break_secret_str
-  block_size = detect_block_size
-  raise 'damn' unless is_ecb?(block_size)
+  block_size = AES.detect_block_size { |x| oracle(x) }
+  raise 'damn' unless AES.is_ecb?(block_size) { |x| oracle(x) }
   secret_str = ""
   mask = " " * block_size
 
+  all_chars = (32..126).map(&:chr)
   block_size.times do
     # chop off the last character
     mask.chop!
@@ -57,7 +39,7 @@ def break_secret_str
     correct_val = oracle(mask)[0...block_size]
 
     # try all suffixes to see what produces the same ecb code
-    ALL_CHARS.each do |char|
+    all_chars.each do |char|
       if oracle(mask + secret_str + char)[0...block_size] == correct_val
         secret_str << char
         break

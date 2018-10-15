@@ -1,4 +1,6 @@
 class PCKS7
+  class InvalidPaddingError < StandardError; end
+
   def self.pad(msg, size = 16)
     blocks = msg.bytes.each_slice(size).to_a
 
@@ -14,6 +16,9 @@ class PCKS7
 
   def self.unpad(msg, size = 16)
     bytes_of_padding = msg[-1].ord
+    if msg[-bytes_of_padding..-1] != msg[-1] * bytes_of_padding
+      raise InvalidPaddingError
+    end
     msg[0..-1 - bytes_of_padding]
   end
 end

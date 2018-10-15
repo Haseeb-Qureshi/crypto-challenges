@@ -56,26 +56,10 @@ def decrypt_profile(ciphertext)
   parse(AES.ecb_decrypt(KEY, ciphertext, PCKS7))
 end
 
-def detect_block_size
-  initial_block_size = oracle("").length
-  l = 1
-  loop do
-    subsequent_block_size = oracle(" " * l).length
-    return subsequent_block_size - initial_block_size if subsequent_block_size > initial_block_size
-    l += 1
-  end
-end
-
-def is_ecb?(block_size = 16)
-  plaintext = " " * (block_size * 3)
-  ciphertext = oracle(plaintext)
-  blocks = ciphertext.chars.each_slice(16).to_a
-  blocks.uniq.length < blocks.length
-end
-
 def create_admin_profile
-  block_size = detect_block_size
-  raise 'damn' unless is_ecb?(block_size)
+  10.times { oracle("") }
+  block_size = AES.detect_block_size { |x| oracle(x) }
+  raise 'damn' unless AES.is_ecb?(block_size) { |x| oracle(x) }
   raise 'wrong block block size' unless block_size == 16
 
   # assuming 16 byte blocks...

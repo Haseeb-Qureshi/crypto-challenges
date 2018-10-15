@@ -11,3 +11,7 @@ end
 def random_block(bits: 128)
   [rand(2 ** bits).to_s(16)].pack('H*').bytes.pack('c*')
 end
+
+def get_block(str, n, block_size = 16)
+  str[((n - 1) * block_size)...(((n - 1) * block_size) + block_size)]
+end

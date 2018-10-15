@@ -122,4 +122,21 @@ class AES
       end
     end
   end
+
+  def self.detect_block_size(&oracle)
+    initial_block_size = oracle.call("").length
+    l = 1
+    loop do
+      subsequent_block_size = oracle.call(" " * l).length
+      return subsequent_block_size - initial_block_size if subsequent_block_size > initial_block_size
+      l += 1
+    end
+  end
+
+  def self.is_ecb?(block_size = 16, &oracle)
+    plaintext = " " * (block_size * 3)
+    ciphertext = oracle.call(plaintext)
+    blocks = ciphertext.chars.each_slice(16).to_a
+    blocks.uniq.length < blocks.length
+  end
 end
