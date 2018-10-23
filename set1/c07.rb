@@ -10,11 +10,9 @@ require 'base64'
 require_relative '../helpers/aes'
 require_relative '../helpers/padding'
 
-KEY = "YELLOW SUBMARINE"
-
 def decrypt_ecb
   input = Base64.decode64(File.read(__dir__ + '/c07_testfile.txt'))
-  AES.ecb_decrypt(KEY, input, PCKS7)
+  AES.ecb_decrypt("YELLOW SUBMARINE", input, PCKS7)
 end
 
 def test

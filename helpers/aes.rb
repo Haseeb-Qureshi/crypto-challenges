@@ -28,10 +28,10 @@ class AES
     padding ? padding.unpad(plaintext) : plaintext
   end
 
-  def self.cbc_encrypt(key, msg)
+  def self.cbc_encrypt(key, msg, padding = PCKS7)
     # choose IV
     iv = random_block(bits: BLOCK_SIZE)
-    blocks = PCKS7.pad(msg, BLOCK_SIZE / 8)
+    blocks = padding.pad(msg, BLOCK_SIZE / 8)
 
     # prepend IV to ciphertext
     encrypted_blocks = [iv]
@@ -50,7 +50,7 @@ class AES
     encrypted_blocks.join
   end
 
-  def self.cbc_decrypt(key, ciphertext)
+  def self.cbc_decrypt(key, ciphertext, padding = PCKS7)
     # decrypt first block
     blocks = ciphertext.bytes.each_slice(16).to_a
     iv = blocks.shift
@@ -70,7 +70,9 @@ class AES
       unencrypted_blocks << next_block
     end
 
-    PCKS7.unpad(unencrypted_blocks.map { |b| b.pack('c*') }.join)
+    plaintext = unencrypted_blocks.map { |b| b.pack('c*') }.join
+
+    padding ? padding.unpad(plaintext) : plaintext
   end
 
   def self.ctr_encrypt(key, msg)

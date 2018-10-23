@@ -46,14 +46,14 @@ def profile_for(email)
   "email=#{email.delete('=').delete('&')}&uid=#{@id}&role=user"
 end
 
-KEY = AES.random_key
+KEY_C13 = AES.random_key
 
 def oracle(email)
-  AES.ecb_encrypt(KEY, profile_for(email), PCKS7)
+  AES.ecb_encrypt(KEY_C13, profile_for(email), PCKS7)
 end
 
 def decrypt_profile(ciphertext)
-  parse(AES.ecb_decrypt(KEY, ciphertext, PCKS7))
+  parse(AES.ecb_decrypt(KEY_C13, ciphertext, PCKS7))
 end
 
 def create_admin_profile
