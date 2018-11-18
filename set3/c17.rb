@@ -48,9 +48,9 @@ def decrypt_random_string(s = encrypt_random_string)
   decrypted = ""
   reconstructed_str = s
 
-  (num_blocks(s) - 2).times do
+  (num_blocks(s) - 1).times do
     b = num_blocks(s)
-    second_to_last_block = get_block(s, b - 2)
+    second_to_last_block = get_block(s, b - 1)
     16.times do |i|
       byte_to_change = -1 - i
       256.times do
@@ -80,5 +80,5 @@ end
 
 def test
   random_string = encrypt_random_string
-  decrypt_random_string(random_string) == AES.cbc_decrypt(KEY_C17, random_string)[16..-1]
+  decrypt_random_string(random_string) == AES.cbc_decrypt(KEY_C17, random_string)
 end
